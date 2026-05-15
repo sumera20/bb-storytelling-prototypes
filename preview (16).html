@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Amara Osei — Building Bridges</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,800;1,9..144,200;1,9..144,600&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --forest:#6BAA8A;
+  --terra:#9152FF;
+  --gold:#C08800;
+  --cream:#F5F0FF;
+  --ink:#1A1033;
+  --sage:#6BAA8A;
+  --lavender:#F2EEFF;
+  --purple-dark:#7339E0;
+  --purple-light:#B580FF;
+  --muted:#6B5F8A;
+  --white:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:var(--cream);overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:0.32}
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--terra),var(--purple-light));z-index:9999;width:0%;transition:width .2s ease}
+#nav-dots{position:fixed;right:2rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.7rem;z-index:9999}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(245,240,255,.25);cursor:pointer;transition:background .3s,transform .3s;border:none}
+.nav-dot.active{background:var(--terra);transform:scale(1.4)}
+.nav-dot:hover{background:rgba(245,240,255,.6)}
+#chapter-label{position:fixed;top:1.8rem;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,240,255,.42);z-index:9999;transition:opacity .4s;pointer-events:none}
+#back-btn{position:fixed;top:1.5rem;left:2rem;z-index:9999;display:flex;align-items:center;gap:.5rem;background:rgba(245,240,255,.08);border:1px solid rgba(181,128,255,.22);border-radius:100px;padding:.5rem 1.2rem;color:rgba(245,240,255,.68);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+#back-btn:hover{background:rgba(145,82,255,.18);color:var(--cream);border-color:rgba(181,128,255,.45)}
+.chapter{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:6rem 2rem}
+.ch-intro{background:#1A1033}
+.ch-arrival{background:#21133f}
+.ch-mother{background:#2a174c}
+.ch-lecture{background:#17102d}
+.ch-rejection{background:#241241}
+.ch-lesson{background:#111f2a}
+.ch-cta{background:#1A1033}
+.bg-circle{position:absolute;border-radius:50%;pointer-events:none;filter:blur(100px)}
+.ch-content{max-width:860px;width:100%;position:relative;z-index:2;opacity:0;transform:translateY(50px);transition:opacity .9s ease,transform .9s ease}
+.ch-content.in-view{opacity:1;transform:translateY(0)}
+.ch-content>*{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.ch-content.in-view>*{opacity:1;transform:translateY(0)}
+.ch-content.in-view>*:nth-child(1){transition-delay:.05s}
+.ch-content.in-view>*:nth-child(2){transition-delay:.14s}
+.ch-content.in-view>*:nth-child(3){transition-delay:.22s}
+.ch-content.in-view>*:nth-child(4){transition-delay:.3s}
+.ch-content.in-view>*:nth-child(5){transition-delay:.38s}
+.ch-content.in-view>*:nth-child(6){transition-delay:.46s}
+.ch-eyebrow{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:1.8rem;display:flex;align-items:center;gap:.8rem}
+.ch-eyebrow::before{content:'';display:block;width:32px;height:1px;background:currentColor;opacity:.5;flex-shrink:0}
+.ch-heading{font-family:'Fraunces',serif;font-weight:800;line-height:1;letter-spacing:-.03em;font-size:clamp(3.5rem,8vw,7rem)}
+.ch-heading em{font-style:italic;font-weight:200}
+.ch-subheading{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-style:italic;font-weight:300;line-height:1.4;opacity:.8}
+.ch-body{font-size:clamp(1rem,1.8vw,1.15rem);line-height:1.85;opacity:.78;max-width:620px;font-weight:300}
+.ch-body strong{font-weight:600;color:var(--cream);opacity:1}
+.ch-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3vw,2.4rem);font-style:italic;font-weight:300;line-height:1.35;color:var(--cream);border-left:3px solid var(--terra);padding-left:1.5rem;margin:2rem 0}
+.ch-quote cite{display:block;margin-top:.8rem;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-style:normal;opacity:.5}
+.ch-number{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(6rem,18vw,16rem);line-height:.85;letter-spacing:-.05em;opacity:.07;position:absolute;pointer-events:none;user-select:none}
+.ch-stat{display:flex;align-items:baseline;gap:.5rem;margin:1.5rem 0}
+.ch-stat-num{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(4rem,10vw,8rem);line-height:1;letter-spacing:-.04em}
+.ch-stat-label{font-size:1rem;opacity:.6;font-weight:300}
+.ch-divider{width:48px;height:2px;margin:1.8rem 0}
+.ch-pill{display:inline-block;padding:.35rem 1rem;border-radius:100px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:1.5rem}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:.35;animation:bounce 2s ease-in-out infinite;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-arrow{font-size:1.2rem}
+/* Chapter specific */
+.ch-arrival .layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.count-big{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(5rem,14vw,11rem);line-height:1;letter-spacing:-.05em;color:var(--cream)}
+.count-label{font-size:1.1rem;opacity:.5;font-weight:300}
+.count-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.2rem,2.5vw,1.8rem);color:var(--terra);margin-top:.5rem;font-weight:300}
+.niche-word{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(4rem,12vw,9rem);line-height:1;letter-spacing:-.04em;color:var(--terra);text-decoration:line-through;text-decoration-thickness:6px;text-decoration-color:var(--gold)}
+.published-word{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(3rem,9vw,7rem);line-height:1;letter-spacing:-.04em;color:var(--gold)}
+.lesson-text{font-family:'Fraunces',serif;font-size:clamp(2.2rem,5vw,4rem);line-height:1.2;font-weight:800;letter-spacing:-.02em}
+.lesson-text em{font-style:italic;font-weight:200;color:var(--gold)}
+.lesson-text .accent{color:var(--terra)}
+.cta-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem}
+.cta-primary{background:linear-gradient(135deg,var(--terra),var(--purple-dark));color:#fff;padding:1rem 2.2rem;border-radius:100px;font-weight:600;font-size:1rem;text-decoration:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 6px 30px rgba(145,82,255,.4);transition:transform .2s,box-shadow .2s}
+.cta-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(145,82,255,.5)}
+.cta-ghost{background:transparent;color:rgba(245,240,255,.7);padding:1rem 2.2rem;border-radius:100px;border:1px solid rgba(181,128,255,.28);font-weight:500;font-size:1rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s,background .2s;text-decoration:none;display:inline-block}
+.cta-ghost:hover{border-color:rgba(181,128,255,.55);color:var(--cream);background:rgba(145,82,255,.12)}
+.portrait-block{width:180px;height:180px;border-radius:50%;background:linear-gradient(135deg,#9152FF,#6BAA8A);display:flex;align-items:center;justify-content:center;font-size:4.5rem;margin-bottom:2.5rem;border:2px solid rgba(245,240,255,.14);box-shadow:0 0 80px rgba(145,82,255,.34)}
+@media(max-width:700px){.ch-arrival .layout{grid-template-columns:1fr;gap:2rem}#nav-dots{display:none}.portrait-block{width:120px;height:120px;font-size:3rem}}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="chapter-label">Prologue</div>
+<a href="building-bridges.html#stories-teaser" id="back-btn">← Stories</a>
+
+<nav id="nav-dots">
+  <button class="nav-dot active" onclick="scrollToChapter(0)" title="Intro"></button>
+  <button class="nav-dot" onclick="scrollToChapter(1)" title="Arrival"></button>
+  <button class="nav-dot" onclick="scrollToChapter(2)" title="Her Mother"></button>
+  <button class="nav-dot" onclick="scrollToChapter(3)" title="The Room"></button>
+  <button class="nav-dot" onclick="scrollToChapter(4)" title="Rejection"></button>
+  <button class="nav-dot" onclick="scrollToChapter(5)" title="The Lesson"></button>
+  <button class="nav-dot" onclick="scrollToChapter(6)" title="For You"></button>
+</nav>
+
+<!-- CH 0: INTRO -->
+<section class="chapter ch-intro" id="ch-0" data-chapter="Prologue">
+  <div class="bg-circle" style="width:700px;height:700px;background:radial-gradient(circle,#9152FF,transparent 70%);top:-200px;left:-200px;opacity:.45"></div>
+  <div class="bg-circle" style="width:500px;height:500px;background:radial-gradient(circle,#6BAA8A,transparent 70%);bottom:-150px;right:-100px;opacity:.35"></div>
+  <div class="ch-content" style="text-align:center;display:flex;flex-direction:column;align-items:center">
+    <div class="ch-pill" style="background:rgba(145,82,255,.18);color:var(--purple-light);border:1px solid rgba(181,128,255,.25)">Building Bridges &middot; Role Model Story</div>
+    <div class="portrait-block">&#128105;&#127998;</div>
+    <div class="ch-eyebrow" style="color:var(--purple-light);justify-content:center">Clinical Psychology &middot; Berlin</div>
+    <h1 class="ch-heading" style="text-align:center;font-size:clamp(3.5rem,9vw,7.5rem)">Dr. Amara<br><em>Osei</em></h1>
+    <p class="ch-subheading" style="text-align:center;margin-top:1.2rem;max-width:500px">From Ghana to Berlin. No German, no map, no one who looked like her. How she built the bridge anyway.</p>
+    <div style="margin-top:2.5rem;font-size:.78rem;color:rgba(245,240,255,.35);letter-spacing:.1em;text-transform:uppercase">Scroll to begin</div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-arrow">&#8595;</div><span>Scroll</span></div>
+</section>
+
+<!-- CH 1: ARRIVAL -->
+<section class="chapter ch-arrival" id="ch-1" data-chapter="Arrival">
+  <div class="bg-circle" style="width:600px;height:600px;background:radial-gradient(circle,#B580FF,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.35"></div>
+  <div class="ch-content">
+    <div class="layout">
+      <div>
+        <div class="ch-eyebrow" style="color:var(--gold)">Chapter 1 &mdash; Arrival</div>
+        <h2 class="ch-heading" style="font-size:clamp(2.8rem,6vw,5rem)">Ghana.<br><em>Age 14.</em><br>Germany.</h2>
+        <div class="ch-divider" style="background:var(--gold)"></div>
+        <p class="ch-body">My German was almost zero. I remember sitting in class understanding maybe every fifth word. <strong>I smiled a lot because I didn&apos;t know what else to do.</strong> People thought I was confident.</p>
+      </div>
+      <div style="text-align:center">
+        <div class="ch-stat" style="justify-content:center;flex-direction:column;align-items:center">
+          <div class="ch-stat-num" style="color:var(--purple-light)">1 in 5</div>
+          <div class="ch-stat-label" style="text-align:center">words she understood<br>in class that first year</div>
+        </div>
+        <div class="ch-quote" style="margin-top:2rem;font-size:1.3rem;border-left-color:var(--gold)">I was terrified.<cite>&mdash; Dr. Amara Osei</cite></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH 2: HER MOTHER -->
+<section class="chapter ch-mother" id="ch-2" data-chapter="Her Mother">
+  <div class="bg-circle" style="width:800px;height:800px;background:radial-gradient(circle,#9152FF,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.32"></div>
+  <div class="ch-number" style="color:var(--terra);right:-2rem;bottom:-3rem">2</div>
+  <div class="ch-content">
+    <div class="ch-eyebrow" style="color:var(--purple-light)">Chapter 2 &mdash; Her Mother</div>
+    <h2 class="ch-heading" style="font-size:clamp(2.8rem,6vw,5rem);color:var(--purple-light)">She broke<br><em>down.</em></h2>
+    <div class="ch-divider" style="background:var(--purple-light)"></div>
+    <p class="ch-body">Work stress. Isolation. The weight of being an immigrant woman with no support system. In our community &mdash; <strong>you prayed, you kept going, you didn&apos;t talk about it.</strong> I watched her suffer in silence.</p>
+    <div class="ch-quote">Someone should have been there for her. Someone who understood where she came from.<br>I decided to become that person.<cite>&mdash; Dr. Amara Osei</cite></div>
+  </div>
+</section>
+
+<!-- CH 3: THE ROOM -->
+<section class="chapter ch-lecture" id="ch-3" data-chapter="The Room">
+  <div class="bg-circle" style="width:500px;height:500px;background:radial-gradient(circle,#7339E0,transparent 70%);top:-100px;right:-100px;opacity:.48"></div>
+  <div class="ch-content">
+    <div class="ch-eyebrow" style="color:rgba(245,240,255,.52)">Chapter 3 &mdash; The Room</div>
+    <p class="ch-body" style="margin-bottom:.5rem">First lecture. She counted.</p>
+    <div style="display:flex;align-items:baseline;gap:1rem;margin:1rem 0">
+      <div class="count-big">47</div>
+      <div class="count-label">students<br>in the room.</div>
+    </div>
+    <div class="count-sub">She was the only Black woman.</div>
+    <div class="ch-divider" style="background:rgba(245,240,255,.25);margin-top:2rem"></div>
+    <p class="ch-body" style="margin-top:0">The professor was explaining Freud and she remembers thinking &mdash; <strong>none of this was written for me, or about me, or with me in mind.</strong></p>
+    <div class="ch-quote" style="border-left-color:rgba(245,240,255,.25);color:rgba(245,240,255,.72);font-size:1.2rem;margin-top:1.5rem">I almost left after the first semester.</div>
+  </div>
+</section>
+
+<!-- CH 4: REJECTION -->
+<section class="chapter ch-rejection" id="ch-4" data-chapter="The Rejection">
+  <div class="bg-circle" style="width:600px;height:600px;background:radial-gradient(circle,#B580FF,transparent 70%);bottom:-200px;left:50%;transform:translateX(-50%);opacity:.36"></div>
+  <div class="ch-content">
+    <div class="ch-eyebrow" style="color:var(--purple-light)">Chapter 4 &mdash; The Rejection</div>
+    <p class="ch-body" style="margin-bottom:1rem">Her supervisor called her research on mental health in African diaspora communities &mdash;</p>
+    <div class="niche-word">&ldquo;too niche.&rdquo;</div>
+    <p class="ch-body" style="margin-top:1.8rem">She went home and <strong>cried for two days.</strong><br>Then she rewrote it. Made it stronger.</p>
+    <div style="margin-top:2rem">
+      <p class="ch-body" style="margin-bottom:.5rem;font-size:.85rem;opacity:.5;text-transform:uppercase;letter-spacing:.1em">The result:</p>
+      <div class="published-word">Published.</div>
+    </div>
+    <div class="ch-quote" style="font-size:1.1rem;margin-top:1.5rem;border-left-color:var(--gold)">He came to congratulate me. I thanked him &mdash; because that rejection made me fight harder.<cite>&mdash; Dr. Amara Osei</cite></div>
+  </div>
+</section>
+
+<!-- CH 5: LESSON -->
+<section class="chapter ch-lesson" id="ch-5" data-chapter="The Lesson">
+  <div class="bg-circle" style="width:700px;height:700px;background:radial-gradient(circle,#6BAA8A,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.38"></div>
+  <div class="ch-number" style="color:var(--sage);left:-2rem;top:2rem">5</div>
+  <div class="ch-content">
+    <div class="ch-eyebrow" style="color:var(--sage)">Chapter 5 &mdash; What She Knows Now</div>
+    <div class="lesson-text">Being the only one<br>in the room<br>is <span class="accent">not</span> a sign<br>you don&apos;t <em>belong.</em></div>
+    <div class="ch-divider" style="background:var(--sage);margin-top:2.5rem"></div>
+    <div class="lesson-text" style="margin-top:0;font-size:clamp(1.6rem,3.5vw,2.8rem)">It is a sign the room<br>hasn&apos;t <em style="color:var(--purple-light)">caught up</em> yet.</div>
+    <div class="ch-quote" style="margin-top:2.5rem;border-left-color:var(--sage);font-size:1.1rem">Find your people early. Not the people who look like you necessarily &mdash; but the people who genuinely see you. Even one person who sees you changes everything.<cite>&mdash; Dr. Amara Osei</cite></div>
+  </div>
+</section>
+
+<!-- CH 6: FOR YOU -->
+<section class="chapter ch-cta" id="ch-6" data-chapter="For You">
+  <div class="bg-circle" style="width:800px;height:800px;background:radial-gradient(circle,#9152FF,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.38"></div>
+  <div class="ch-content" style="text-align:center;display:flex;flex-direction:column;align-items:center">
+    <div class="ch-eyebrow" style="color:var(--gold);justify-content:center">She says this &mdash; for you</div>
+    <div class="ch-quote" style="border:none;padding:0;text-align:center;font-size:clamp(1.5rem,3.5vw,2.6rem);max-width:680px;border-left:none">&ldquo;If you leave, they win twice.<br>Once because you left &mdash;<br>and once because the next girl<br>who looks like you<br><span style="color:var(--purple-light)">won&apos;t see you there</span><br>when she arrives.&rdquo;</div>
+    <div style="margin-top:1rem;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;opacity:.4">&mdash; Dr. Amara Osei, Clinical Psychologist</div>
+    <div class="ch-divider" style="background:var(--terra);width:60px;margin:2rem auto"></div>
+    <p class="ch-body" style="text-align:center;max-width:460px">Inspired by Amara&apos;s story? There is a place for you in this field &mdash; and in this program.</p>
+    <div class="cta-btns" style="justify-content:center">
+      <a href="building-bridges.html#register" class="cta-primary">Join the Program &rarr;</a>
+      <button class="cta-ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Read again</button>
+      <a href="building-bridges.html#stories-teaser" class="cta-ghost">More stories</a>
+    </div>
+  </div>
+</section>
+
+<script>
+const chapters=document.querySelectorAll('.chapter');
+const dots=document.querySelectorAll('.nav-dot');
+const progressBar=document.getElementById('progress-bar');
+const chapterLabel=document.getElementById('chapter-label');
+
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    const c=e.target.querySelector('.ch-content');
+    if(e.isIntersecting&&c) c.classList.add('in-view');
+  });
+},{threshold:0.2});
+
+const navObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=Array.from(chapters).indexOf(e.target);
+      dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+      chapterLabel.textContent=e.target.dataset.chapter||'';
+    }
+  });
+},{threshold:0.5});
+
+chapters.forEach(ch=>{revealObs.observe(ch);navObs.observe(ch);});
+
+window.addEventListener('scroll',()=>{
+  const total=document.body.scrollHeight-window.innerHeight;
+  progressBar.style.width=(window.scrollY/total*100)+'%';
+});
+
+function scrollToChapter(i){chapters[i].scrollIntoView({behavior:'smooth'});}
+document.querySelector('#ch-0 .ch-content').classList.add('in-view');
+</script>
+</body>
+</html>
